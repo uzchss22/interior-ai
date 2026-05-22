@@ -16,6 +16,9 @@ export default function RootLayout({ children }) {
           <Provider>
             {children}
           </Provider>
+          <footer style={{textAlign: 'center', padding: '12px', fontSize: '13px', color: '#888', borderTop: '1px solid #e5e7eb'}}>
+            2025810092 Hyeok CHOI
+          </footer>
         </body>
       </html>
     </ClerkProvider>
