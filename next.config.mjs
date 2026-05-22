@@ -1,18 +1,23 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-/** @type {import('next').NextConfig} */
+import withPWA from 'next-pwa';
 const nextConfig = {
-  turbopack: {},
-  webpack: (config) => {
-    config.resolve.modules = [
-      path.resolve(__dirname, 'node_modules'),
-      ...config.resolve.modules,
-    ];
-    return config;
-  },
+  reactStrictMode: true,
 };
-
-export default nextConfig;
+export default withPWA({
+  dest: 'public',
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/firebasestorage\.googleapis\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'ai-images',
+        expiration: {
+          maxEntries: 50,
+          maxAgeSeconds: 7 * 24 * 60 * 60,
+        },
+      },
+    },
+  ],
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+})(nextConfig);
